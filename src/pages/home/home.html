@@ -7,8 +7,19 @@
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+  <tree-view [data]="data" [key]="key"></tree-view>
+
+  <hr />
+
+  <ul>
+    <ng-template #treeView let-data>
+      <li *ngFor="let item of data">
+        {{ item.name }}
+        <ul *ngIf="item.children?.length > 0">
+          <ng-container *ngTemplateOutlet="treeView;  context:{ $implicit: item.children }"></ng-container>
+        </ul>
+      </li>
+    </ng-template>
+    <ng-container *ngTemplateOutlet="treeView; context:{ $implicit: data }"></ng-container>
+  </ul>
 </ion-content>
